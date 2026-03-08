@@ -1,6 +1,4 @@
-
-
-const { initPopovers, showPopover, closePopover } = require('../src/popover');
+import { initPopovers, showPopover, closePopover } from '../popover';
 
 describe('Popover Widget', () => {
     let button;
@@ -18,9 +16,7 @@ describe('Popover Widget', () => {
         button = document.querySelector('.popover-btn');
         
         // Сбрасываем currentPopover
-        if (typeof closePopover === 'function') {
-            closePopover();
-        }
+        closePopover();
     });
     
     afterEach(() => {
@@ -104,23 +100,14 @@ describe('Popover Widget', () => {
         button.getBoundingClientRect = jest.fn(() => mockButtonRect);
         
         // Создаем и позиционируем popover
-        const popover = document.createElement('div');
-        popover.className = 'popover';
-        popover.innerHTML = '<div class="popover-header">Title</div><div class="popover-body">Content</div>';
-        document.body.append(popover);
+        showPopover(button, 'Title', 'Content');
         
+        const popover = document.querySelector('.popover');
         popover.getBoundingClientRect = jest.fn(() => mockPopoverRect);
         
-        // Вызываем позиционирование
-        if (typeof showPopover === 'function') {
-            showPopover(button, 'Title', 'Content');
-        }
-        
-        // Проверяем, что popover позиционирован сверху
-        const positionedPopover = document.querySelector('.popover');
-        if (positionedPopover) {
-            const top = parseInt(positionedPopover.style.top);
-            expect(top).toBeLessThan(mockButtonRect.top);
-        }
+        // Вызываем позиционирование (оно уже вызвано внутри showPopover)
+        // Просто проверяем результат
+        const top = parseInt(popover.style.top);
+        expect(top).toBeLessThan(mockButtonRect.top);
     });
 });
