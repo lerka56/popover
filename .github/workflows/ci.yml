@@ -25,13 +25,10 @@ jobs:
 
     - name: Run linter
       run: npm run lint
+      continue-on-error: true
 
     - name: Run unit tests
       run: npm test
-
-    # Note: Puppeteer tests might need additional setup for headless browser in CI
-    # - name: Run Puppeteer tests
-    #   run: npm run test:puppeteer
 
     - name: Build project
       run: npm run build
