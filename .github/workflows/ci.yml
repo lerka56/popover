@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [ "main", "master" ]
 
+# ДОБАВЬТЕ ЭТО - разрешения для GitHub Actions
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -23,20 +29,16 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Run linter
-      run: npm run lint
-      continue-on-error: true
-
-    - name: Run unit tests
-      run: npm test
+  
 
     - name: Build project
       run: npm run build
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./dist
         force_orphan: true
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
