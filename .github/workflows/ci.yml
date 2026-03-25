@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ "main", "master" ]
 
-# ДОБАВЬТЕ ЭТО - разрешения для GitHub Actions
+# Разрешения для GitHub Actions
 permissions:
   contents: write
   pages: write
@@ -29,7 +29,8 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-  
+    - name: Run tests
+      run: npm test
 
     - name: Build project
       run: npm run build
